@@ -1,4 +1,6 @@
 # COV-APP-19
-COV-APP-19 Project\
-Front-End Language: HTML & CSS (To be confirmed)\
-Back-End Langugage: JavaScript
+Just figuring out the core functionalities of the program
+
+1. Create Account
+2. Sign In
+3. Checking into a location
