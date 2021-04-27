@@ -2,7 +2,7 @@
 
 ##TO START
 You have to have pip and pipenv installed 
-if you don't have pipenv installed read the tutorial [here] (https://www.pythontutorial.net/python-basics/install-pipenv-windows/)
+if you don't have pipenv installed read the tutorial [here](https://www.pythontutorial.net/python-basics/install-pipenv-windows/)
 
 Once repo is cloned, navigate into folder then run the command 
 `pipenv shell`
