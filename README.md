@@ -1,6 +1,6 @@
 # COV-APP-19
 
-## TO START
+## TO SETUP FIRST TIME
 You have to have pip and pipenv installed 
 if you don't have pipenv installed read the tutorial [here](https://www.pythontutorial.net/python-basics/install-pipenv-windows/)
 
@@ -32,6 +32,13 @@ It will then ask you for the credentials
 
 Don't forget them as they are how to login to django admin :) 
 
+## TO START
+if you haven't already start a pipenv shell with
+`pipenv shell`
+
+then if you aren't already in the base directory
+
+`cd covidTracing`
 then start start the server with 
 `python manage.py runserver`
 
