@@ -45,3 +45,6 @@ then start start the server with
 this should start the server on localhost:8000
 
 **Currently there are no html pages, but if you are familiar with postman, you can send requests to the apis for register, login and to return the user. I can demonstrate this at our next meeting if I haven't added pages by then**
+
+
+#TODO
