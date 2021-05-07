@@ -58,4 +58,7 @@ class Accounts(AbstractBaseUser):
 
     def has_module_perms(self, app_label_):
         return True
-    
+
+
+
+#^(?:(?:[2-8]\d|9[0-7]|0?[28]|0?9(?=09))(?:\d{2}))$
