@@ -12,8 +12,6 @@ This should start a virtual environment (make sure you are navigated into the fo
 Install the dependencies with 
 `pipenv install`
 
-
-
 then 
 `cd covidTracing`
 

@@ -44,8 +44,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'knox',
     'corsheaders',
-
-    'location',
 ]
 
 REST_FRAMEWORK = {
