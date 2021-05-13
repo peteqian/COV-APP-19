@@ -14,8 +14,8 @@ class AccountsAdmin(UserAdmin):
     list_filter = ()
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name')}),
-        ('Permissions', {'fields': ('is_admin', 'is_staff', 'is_superuser', 'is_active')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'phone_number')}),
+        ('Permissions', {'fields': ('is_admin', 'is_staff', 'is_superuser', 'is_active', 'user_type')}),
     )
 
     add_fieldsets = (
