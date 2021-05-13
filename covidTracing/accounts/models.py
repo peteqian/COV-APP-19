@@ -49,6 +49,8 @@ class Accounts(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+    type_choices = models.TextChoices('type_choices', 'GENERAL_USER BUSINESS_USER HEALTH_USER ORGANISATION_USER')
+    user_type = models.CharField(default='GENERAL_USER', choices=type_choices.choices, max_length=17)
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'phone_number']
