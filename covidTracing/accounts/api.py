@@ -1,7 +1,7 @@
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from knox.models import AuthToken
-from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
+from .serializers import UserSerializer, RegisterSerializer, LoginSerializer, HealthSerializer, OrganisationSerializer, BusinessSerializer
 
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -23,10 +23,29 @@ class LoginAPI(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data
-        return Response({
-            "user": UserSerializer(user, context=self.get_serializer_context()).data, 
-            "token": AuthToken.objects.create(user)[1]
-        })
+        #check for user type here and return specified data
+        if user.user_type == "GENERAL_USER":
+            return Response({
+                "user": UserSerializer(user, context=self.get_serializer_context()).data, 
+                "token": AuthToken.objects.create(user)[1]
+            })
+        elif user.user_type == "HEALTH_USER":
+            return Response({
+                "user": HealthSerializer(user, context=self.get_serializer_context()).data,
+                "token": AuthToken.objects.create(user)[1]
+            })
+        elif user.user_type == "ORGANISATION_USER":
+            return Response({
+                "user": OrganisationSerializer(user, context=self.get_serializer_context()).data,
+                "token": AuthToken.objects.create(user)[1]
+            })
+        elif user.user_type == "BUSINESS_USER":
+            return Response({
+                "user": BusinessSerializer(user, context=self.get_serializer_context()).data,
+                "token": AuthToken.objects.create(user)[1]
+            })
+        else:
+            print("Something is wrong lol")
 
 
 class UserAPI(generics.RetrieveAPIView):

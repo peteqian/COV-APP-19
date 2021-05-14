@@ -2,12 +2,29 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
 
+#serializer for general user
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ('email', 'first_name', 'last_name', 'phone_number', 'user_type')
 
+#serializer for health user
+class HealthSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ('first_name', 'last_name', 'user_type')
 
+#serializer for business user - Something with this will need to be changed to return the business locationID 
+class BusinessSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ('email', 'user_type')
+
+#serializer for Organisation user
+class OrganisationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ('first_name', 'last_name', 'user_type')
 
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
