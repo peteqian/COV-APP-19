@@ -31,7 +31,7 @@ class Visits(models.Model):
     timeOfVisit = models.DateTimeField(default=datetime.now)
 
 class Dependents(models.Model):
-    visit =  models.ForeignKey(Visits, on_delete=models.CASCADE)
+    visit =  models.ForeignKey(Visits, on_delete=models.CASCADE,related_name='dependents')
     carer = models.ForeignKey('accounts.Accounts', on_delete=models.CASCADE)
     firstname = models.CharField(max_length=50)
     lastname = models.CharField(max_length=50)

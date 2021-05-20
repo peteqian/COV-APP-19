@@ -2,7 +2,7 @@
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from .serializers import CheckInSerializer
+from .serializers import CheckInSerializer, VisitsSerializer
 from knox.auth import TokenAuthentication
 from visitinfo.models import Visits, Locations, Dependents
 from accounts.models import Accounts
@@ -30,24 +30,26 @@ class checkInAPI(APIView):
 
         v = Visits.objects.create(user=uid, location=lid)
 
-        dlist = serializer.data["dependents"]
-
         for d in dlist:
-            Dependents.objects.create(visit=v, carer=uid, firstname=d["firstName"],lastname=d["lastName"],phonenumber=d["phoneNumber"])
+            Dependents.objects.create(visit=v, carer=uid, firstname=d["firstname"],lastname=d["lastname"],phonenumber=d["phonenumber"])
         
         return Response({
             "data" : serializer.data
         })
     
     def get(self, request, format=None):
-        content = {
-            'foo':'bar'
-        }
-        return Response(content)
+        uid = Accounts.objects.get(id=self.request.user.id) 
+        visit = Visits.objects.filter(user_id=uid)
+        # print(visit)
+        serializer = VisitsSerializer(visit,many=True)
+
+        return Response({
+            "data" : serializer.data
+        })
 
 
-    #associate token with user
+    #     return Response(content)
 
 
-    #update tables
+
 
