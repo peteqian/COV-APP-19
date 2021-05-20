@@ -18,7 +18,7 @@ class Street(models.Model):
     PostCode = models.ForeignKey(PostCode, on_delete=models.PROTECT)
 
 class Address(models.Model):
-    streetID = models.ForeignKey(Street, on_delete=models.PROTECT)
+    street = models.ForeignKey(Street, on_delete=models.PROTECT)
     houseNumber = models.IntegerField()
 
 class Locations(models.Model):
@@ -26,13 +26,12 @@ class Locations(models.Model):
     locationName = models.CharField(max_length=255)
 
 class Visits(models.Model):
-    visitID = models.CharField(max_length=50, primary_key=True, unique=True)
-    userID = models.ForeignKey('accounts.Accounts', on_delete=models.CASCADE)
-    locationID = models.ForeignKey(Locations, on_delete=models.PROTECT)
+    user = models.ForeignKey('accounts.Accounts', on_delete=models.CASCADE)
+    location = models.ForeignKey(Locations, on_delete=models.PROTECT)
     timeOfVisit = models.DateTimeField(default=datetime.now)
 
 class Dependents(models.Model):
-    visitID =  models.ForeignKey(Visits, on_delete=models.CASCADE)
+    visit =  models.ForeignKey(Visits, on_delete=models.CASCADE)
     carer = models.ForeignKey('accounts.Accounts', on_delete=models.CASCADE)
     firstname = models.CharField(max_length=50)
     lastname = models.CharField(max_length=50)

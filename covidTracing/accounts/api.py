@@ -1,5 +1,6 @@
 from rest_framework import generics, permissions
 from rest_framework.response import Response
+from knox.auth import TokenAuthentication
 from knox.models import AuthToken
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer, HealthSerializer, OrganisationSerializer, BusinessSerializer
 
@@ -14,6 +15,21 @@ class RegisterAPI(generics.GenericAPIView):
             "user": UserSerializer(user, context=self.get_serializer_context()).data, 
             "token": AuthToken.objects.create(user)[1]
         })
+
+
+class UpdateAPI(generics.GenericAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def put(self, request, *args, **kwargs):
+        user = self.request.user
+        serializer = UserSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(True)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 
 
 class LoginAPI(generics.GenericAPIView):
