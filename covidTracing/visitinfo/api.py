@@ -26,12 +26,14 @@ class checkInAPI(APIView):
         
 
         uid = Accounts.objects.get(id=self.request.user.id) 
-        lid = Locations.objects.get(id=serializer.data["locationID"])
+        lid = Locations.objects.get(id=serializer.data["location_id"])
 
         v = Visits.objects.create(user=uid, location=lid)
 
+        dlist=serializer.data["dependents"]
+
         for d in dlist:
-            Dependents.objects.create(visit=v, carer=uid, firstname=d["firstname"],lastname=d["lastname"],phonenumber=d["phonenumber"])
+            Dependents.objects.create(visit=v, carer=uid, first_name=d["first_name"],last_name=d["last_name"],phone_number=d["phone_number"])
         
         return Response(True)
     

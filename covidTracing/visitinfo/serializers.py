@@ -12,14 +12,13 @@ from knox.auth import TokenAuthentication as TA
 class dependentSerializer(serializers.Serializer):
    
 
-    firstname = serializers.CharField()
-    lastname = serializers.CharField()
-    phonenumber = serializers.CharField()
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
+    phone_number = serializers.CharField()
 
 
 class CheckInSerializer(serializers.Serializer):
-    phoneNumber = serializers.CharField()
-    locationID = serializers.CharField()
+    location_id = serializers.CharField()
     dependents = dependentSerializer(many=True, required=False)
 
 
@@ -38,20 +37,20 @@ class CheckInSerializer(serializers.Serializer):
 #         model = Dependents
 #         fields = [
 #             'carer',
-#             'firstname',
-#             'lastname',
-#             'phonenumber'
+#             'first_name',
+#             'last_name',
+#             'phone_number'
 #         ]
 
 
 
 
 class LocationSerializer(serializers.Serializer):
-    locationName = serializers.CharField()
+    location_name = serializers.CharField()
 
 class VisitsSerializer(serializers.Serializer):
     dependents = dependentSerializer(many=True)
     location = LocationSerializer(many=False)
-    timeOfVisit = serializers.DateTimeField()
+    time_of_visit = serializers.DateTimeField()
 
 

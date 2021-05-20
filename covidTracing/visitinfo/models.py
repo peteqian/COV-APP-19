@@ -23,17 +23,17 @@ class Address(models.Model):
 
 class Locations(models.Model):
     address = models.ForeignKey(Address, on_delete=models.PROTECT)
-    locationName = models.CharField(max_length=255)
+    location_name = models.CharField(max_length=255)
 
 class Visits(models.Model):
     user = models.ForeignKey('accounts.Accounts', on_delete=models.CASCADE)
     location = models.ForeignKey(Locations, on_delete=models.PROTECT)
-    timeOfVisit = models.DateTimeField(default=datetime.now)
+    time_of_visit = models.DateTimeField(default=datetime.now)
 
 class Dependents(models.Model):
     visit =  models.ForeignKey(Visits, on_delete=models.CASCADE,related_name='dependents')
     carer = models.ForeignKey('accounts.Accounts', on_delete=models.CASCADE)
-    firstname = models.CharField(max_length=50)
-    lastname = models.CharField(max_length=50)
-    phonenumber = models.CharField(max_length=13, blank=True, default='')
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    phone_number = models.CharField(max_length=13, blank=True, default='')
 
