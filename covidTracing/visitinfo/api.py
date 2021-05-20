@@ -33,9 +33,7 @@ class checkInAPI(APIView):
         for d in dlist:
             Dependents.objects.create(visit=v, carer=uid, firstname=d["firstname"],lastname=d["lastname"],phonenumber=d["phonenumber"])
         
-        return Response({
-            "data" : serializer.data
-        })
+        return Response(True)
     
     def get(self, request, format=None):
         uid = Accounts.objects.get(id=self.request.user.id) 
