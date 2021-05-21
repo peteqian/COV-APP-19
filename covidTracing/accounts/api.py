@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from knox.auth import TokenAuthentication
 from knox.models import AuthToken
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer, HealthSerializer, OrganisationSerializer, BusinessSerializer
+from visitinfo.models import PostCode, Street, Address, Locations
 
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -16,18 +17,40 @@ class RegisterAPI(generics.GenericAPIView):
             "token": AuthToken.objects.create(user)[1]
         })
 
+# class RegisterBusinessAPI(generics.GenericAPIView):
+#     serializer_class = RegisterSerializer
+    
+#     def post(self, request, *args, **kwargs):
+#         serializer = self.get_serializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.save()
+#         user.user_type = 'BUSINESS_USER'
+#         user.save()
+#         return Response({
+#             "user": UserSerializer(user, context=self.get_serializer_context()).data, 
+#             "token": AuthToken.objects.create(user)[1]
+#         })
+
 class RegisterBusinessAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
     
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        user.user_type = 'BUSINESS_USER'
-        user.save()
+        # user = serializer.save()
+        # user.user_type = 'BUSINESS_USER'
+        # user.save()
+        
+        pc = PostCode.objects.create(postcode=request.data["postcode"], state=request.data["state"])
+        # street = Street.objects.create(name=request.data["street"], PostCode = )
+
         return Response({
-            "user": UserSerializer(user, context=self.get_serializer_context()).data, 
-            "token": AuthToken.objects.create(user)[1]
+            "data": request.data,
+            "pc" : {
+                "code": pc.postcode,
+                "state":pc.state
+            }
+            # "userData": UserSerializer(user, context=self.get_serializer_context()).data,
         })
 
 
