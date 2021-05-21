@@ -24,6 +24,7 @@ class Address(models.Model):
 class Locations(models.Model):
     address = models.ForeignKey(Address, on_delete=models.PROTECT)
     locationName = models.CharField(max_length=255)
+    user = models.ForeignKey('accounts.Accounts', on_delete=models.PROTECT)
 
 class Visits(models.Model):
     user = models.ForeignKey('accounts.Accounts', on_delete=models.CASCADE)

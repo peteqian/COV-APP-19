@@ -37,27 +37,30 @@ class RegisterBusinessAPI(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        # user = serializer.save()
-        # user.user_type = 'BUSINESS_USER'
-        # user.save()
+        user = serializer.save()
+        user.user_type = 'BUSINESS_USER'
+        user.save()
         
         pc = PostCode.objects.create(postcode=request.data["postcode"], state=request.data["state"])
-        street = Street.objects.create(name=request.data["street"], PostCode=PostCode.objects.get(postcode=request.data["postcode"]))
-        address = Address.objects.create(houseNumber)
+        street = Street.objects.create(name=request.data["street"], PostCode=pc)
+        address = Address.objects.create(houseNumber=request.data["house_number"], street=street)
+        location = Locations.objects.create(locationName=request.data["loc_name"], address=address, user=user)
 
-
-        return Response({
-            "data": request.data,
-            "pc" : {
-                "code": pc.postcode,
-                "state":pc.state
-            },
-            "street": {
-                "name": street.name
-            }
-            # "userData": UserSerializer(user, context=self.get_serializer_context()).data,
-        })
-
+        # return Response({
+        #     "data": request.data,
+        #     "pc" : {
+        #         "code": pc.postcode,
+        #         "state":pc.state
+        #     },
+        #     "street": {
+        #         "name": street.name
+        #     },
+        #     "location": {
+        #         "id": location.id,
+        #         "name": location.locationName
+        #     }
+        # })
+        return Response(True)
 
 class UpdateAPI(generics.GenericAPIView):
     authentication_classes = (TokenAuthentication,)
