@@ -74,8 +74,10 @@ class LoginAPI(generics.GenericAPIView):
                 "token": AuthToken.objects.create(user)[1]
             })
         elif user.user_type == "BUSINESS_USER":
+            location = Locations.objects.get(user=user)
             return Response({
                 "user": BusinessSerializer(user, context=self.get_serializer_context()).data,
+                "locationID": location.id,
                 "token": AuthToken.objects.create(user)[1]
             })
         else:
