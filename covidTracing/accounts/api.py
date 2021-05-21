@@ -12,24 +12,11 @@ class RegisterAPI(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        return Response({
-            "user": UserSerializer(user, context=self.get_serializer_context()).data, 
-            "token": AuthToken.objects.create(user)[1]
-        })
-
-# class RegisterBusinessAPI(generics.GenericAPIView):
-#     serializer_class = RegisterSerializer
-    
-#     def post(self, request, *args, **kwargs):
-#         serializer = self.get_serializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         user = serializer.save()
-#         user.user_type = 'BUSINESS_USER'
-#         user.save()
-#         return Response({
-#             "user": UserSerializer(user, context=self.get_serializer_context()).data, 
-#             "token": AuthToken.objects.create(user)[1]
-#         })
+        # return Response({
+        #     "user": UserSerializer(user, context=self.get_serializer_context()).data, 
+        #     "token": AuthToken.objects.create(user)[1]
+        # })
+        return Response(True)
 
 class RegisterBusinessAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -46,20 +33,6 @@ class RegisterBusinessAPI(generics.GenericAPIView):
         address = Address.objects.create(houseNumber=request.data["house_number"], street=street)
         location = Locations.objects.create(locationName=request.data["loc_name"], address=address, user=user)
 
-        # return Response({
-        #     "data": request.data,
-        #     "pc" : {
-        #         "code": pc.postcode,
-        #         "state":pc.state
-        #     },
-        #     "street": {
-        #         "name": street.name
-        #     },
-        #     "location": {
-        #         "id": location.id,
-        #         "name": location.locationName
-        #     }
-        # })
         return Response(True)
 
 class UpdateAPI(generics.GenericAPIView):
