@@ -42,13 +42,18 @@ class RegisterBusinessAPI(generics.GenericAPIView):
         # user.save()
         
         pc = PostCode.objects.create(postcode=request.data["postcode"], state=request.data["state"])
-        # street = Street.objects.create(name=request.data["street"], PostCode = )
+        street = Street.objects.create(name=request.data["street"], PostCode=PostCode.objects.get(postcode=request.data["postcode"]))
+        address = Address.objects.create(houseNumber)
+
 
         return Response({
             "data": request.data,
             "pc" : {
                 "code": pc.postcode,
                 "state":pc.state
+            },
+            "street": {
+                "name": street.name
             }
             # "userData": UserSerializer(user, context=self.get_serializer_context()).data,
         })
