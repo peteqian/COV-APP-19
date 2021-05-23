@@ -15,11 +15,11 @@ class PostCode(models.Model):
 
 class Street(models.Model):
     name = models.CharField(max_length=255)
-    PostCode = models.ForeignKey(PostCode, on_delete=models.PROTECT)
+    postcode = models.ForeignKey(PostCode, on_delete=models.PROTECT)
 
 class Address(models.Model):
     street = models.ForeignKey(Street, on_delete=models.PROTECT)
-    houseNumber = models.IntegerField()
+    house_number = models.IntegerField()
 
 class Locations(models.Model):
     address = models.ForeignKey(Address, on_delete=models.PROTECT)
