@@ -51,6 +51,8 @@ class Accounts(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
     type_choices = models.TextChoices('type_choices', 'GENERAL_USER BUSINESS_USER HEALTH_USER ORGANISATION_USER')
     user_type = models.CharField(default='GENERAL_USER', choices=type_choices.choices, max_length=17)
+    cov_status_choices = models.TextChoices('cov_status_choices', 'NEGATIVE POSITIVE PENDING')
+    cov_status = models.CharField(default='NEGATIVE', choices=cov_status_choices.choices, max_length=8)
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'phone_number']

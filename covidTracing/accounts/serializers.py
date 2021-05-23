@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ('email', 'first_name', 'last_name', 'phone_number', 'user_type')
+        fields = ('email', 'first_name', 'last_name', 'phone_number', 'user_type', 'cov_status')
 
 #serializer for health user
 class HealthSerializer(serializers.ModelSerializer):

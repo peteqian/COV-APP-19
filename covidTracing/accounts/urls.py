@@ -1,10 +1,11 @@
 from django.urls import path, include
-from .api import RegisterAPI, LoginAPI, UserAPI, UpdateAPI
+from .api import RegisterAPI, LoginAPI, UserAPI, UpdateAPI, RegisterBusinessAPI
 from knox import views as knox_views
 
 urlpatterns = [
     path('api/auth', include ('knox.urls')),
     path('api/auth/register', RegisterAPI.as_view()),
+    path('api/auth/register/business', RegisterBusinessAPI.as_view()),
     path('api/auth/login', LoginAPI.as_view()),
     path('api/auth/user', UserAPI.as_view()),
     path('update', UpdateAPI.as_view()),
