@@ -1,4 +1,5 @@
 
+from visitinfo.models import Visits, Dependents
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
@@ -6,17 +7,18 @@ from knox.auth import TokenAuthentication as TA
 
 
 
+
 #nested serializers are read only
 class dependentSerializer(serializers.Serializer):
-    firstName = serializers.CharField()
-    lastName = serializers.CharField()
-    phoneNumber = serializers.CharField()
+   
+
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
+    phone_number = serializers.CharField()
+
 
 class CheckInSerializer(serializers.Serializer):
-    firstName = serializers.CharField()
-    lastName = serializers.CharField()
-    phoneNumber = serializers.CharField()
-    locationID = serializers.CharField()
+    location_id = serializers.CharField()
     dependents = dependentSerializer(many=True, required=False)
 
 
@@ -29,3 +31,26 @@ class CheckInSerializer(serializers.Serializer):
     #     if user and user.is_active:
     #         return user
     #     raise serializers.ValidationError("Incorrect Credentials")
+
+# class getDependentSerializer(serializers.Serializer):
+#     class Meta:
+#         model = Dependents
+#         fields = [
+#             'carer',
+#             'first_name',
+#             'last_name',
+#             'phone_number'
+#         ]
+
+
+
+
+class LocationSerializer(serializers.Serializer):
+    location_name = serializers.CharField()
+
+class VisitsSerializer(serializers.Serializer):
+    dependents = dependentSerializer(many=True)
+    location = LocationSerializer(many=False)
+    time_of_visit = serializers.DateTimeField()
+
+

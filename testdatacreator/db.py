@@ -89,7 +89,7 @@ def createStreet():
     total_streets = len(lines)
 
     for l in lines:
-        i = r.randint(1000,9000)
+        i = r.randint(1000,2000)
         c.execute("INSERT INTO visitinfo_street (name, postcode_id) VALUES ('%s', '%d')" % (l,i))
 
 
@@ -98,7 +98,7 @@ def createStreet():
 def createAddress():
     #i = steetID , k = house number
     #doesnt even work anyway, just takes i value. not important rn 
-    for i in range(10):
+    for i in range(1,10):
         k = r.randint(0,50)
         c.execute("INSERT INTO visitinfo_address (street_id, housenumber) VALUES ('%d', '%d')" % (i,k))
 

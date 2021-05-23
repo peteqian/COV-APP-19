@@ -8,9 +8,9 @@ class Vaccines(models.Model):
 
 
 class RecievedVaccineDose(models.Model):
-    userID = models.ForeignKey('accounts.Accounts', on_delete=models.CASCADE)
-    vaccineID = models.ForeignKey(Vaccines,on_delete=models.CASCADE)
-    dosesRecieved = models.IntegerField(default=0)
-    lastDoseRecievedData = models.DateTimeField(default=datetime.now)
+    user = models.ForeignKey('accounts.Accounts', on_delete=models.CASCADE)
+    vaccine = models.ForeignKey(Vaccines,on_delete=models.CASCADE)
+    doses_recieved = models.IntegerField(default=0)
+    last_dose_recieved_date = models.DateTimeField(default=datetime.now)
 
 

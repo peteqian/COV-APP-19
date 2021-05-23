@@ -26,13 +26,15 @@ class Locations(models.Model):
     location_name = models.CharField(max_length=255)
     user = models.ForeignKey('accounts.Accounts', on_delete=models.PROTECT)
 
+
 class Visits(models.Model):
     user = models.ForeignKey('accounts.Accounts', on_delete=models.CASCADE)
     location = models.ForeignKey(Locations, on_delete=models.PROTECT)
     time_of_visit = models.DateTimeField(default=datetime.now)
 
 class Dependents(models.Model):
-    visit = models.ForeignKey(Visits, on_delete=models.CASCADE, related_name='dependents')
+
+    visit =  models.ForeignKey(Visits, on_delete=models.CASCADE,related_name='dependents')
     carer = models.ForeignKey('accounts.Accounts', on_delete=models.CASCADE)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
