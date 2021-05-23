@@ -29,9 +29,9 @@ class RegisterBusinessAPI(generics.GenericAPIView):
         user.save()
         
         pc = PostCode.objects.create(postcode=request.data["postcode"], state=request.data["state"])
-        street = Street.objects.create(name=request.data["street"], PostCode=pc)
-        address = Address.objects.create(houseNumber=request.data["house_number"], street=street)
-        location = Locations.objects.create(locationName=request.data["loc_name"], address=address, user=user)
+        street = Street.objects.create(name=request.data["street"], postcode=pc)
+        address = Address.objects.create(house_number=request.data["house_number"], street=street)
+        location = Locations.objects.create(location_name=request.data["loc_name"], address=address, user=user)
 
         return Response(True)
 
