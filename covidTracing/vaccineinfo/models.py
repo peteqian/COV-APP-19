@@ -4,7 +4,8 @@ from datetime import datetime
 
 class Vaccines(models.Model):
     name = models.CharField(max_length=100)
-    dosesRequired = models.IntegerField(default=1)
+    doses_required = models.IntegerField(default=1)
+    summary = models.CharField(max_length = 500)
 
 
 class RecievedVaccineDose(models.Model):
