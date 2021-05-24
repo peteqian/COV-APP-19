@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.db.models import fields
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
@@ -28,8 +29,8 @@ class OrganisationSerializer(serializers.ModelSerializer):
         model = get_user_model()
         fields = ('first_name', 'last_name', 'user_type')
 
-class RegisterSerializer(serializers.ModelSerializer):
 
+class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validators.validate_password])
 
     class Meta:

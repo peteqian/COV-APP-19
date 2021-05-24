@@ -1,9 +1,11 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from knox.auth import TokenAuthentication
 from knox.models import AuthToken
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer, HealthSerializer, OrganisationSerializer, BusinessSerializer
 from visitinfo.models import PostCode, Street, Address, Locations
+from accounts.models import Accounts
+
 
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -48,6 +50,24 @@ class UpdateAPI(generics.GenericAPIView):
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
+
+class UpdateTestAPI(generics.GenericAPIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def put(self, request, *args, **kwargs):
+        user = self.request.user
+        if(user.user_type != "HEALTH_USER"):
+            return Response({
+                'data':'Error user is not health staff'
+            })
+
+        userToChange = Accounts.objects.get(email=request.data["email"])
+        userToChange.cov_status = request.data["newStatus"]
+        userToChange.save()
+        return Response(True)
+        
+
 
 
 class LoginAPI(generics.GenericAPIView):
