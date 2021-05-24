@@ -17,6 +17,14 @@ class getUserInfo(APIView):
         serializer = emailSerializer(data = request.data)
         serializer.is_valid(raise_exception=True)
 
+        user = Accounts.objects.get(id=self.request.user.id)
+        if(user.user_type == "HEALTH_USER"):
+            pass
+        else:
+            return Response({
+                'data':'Error user is not health staff'
+            })
+
         user = Accounts.objects.get(email=serializer.data['email'])
         vaxData = RecievedVaccineDose.objects.get(user=user)
 
@@ -27,7 +35,8 @@ class getUserInfo(APIView):
             },
             "vaccinations" : {
                 "vaccine" : vaxData.vaccine.name,
-                "received doses" : vaxData.doses_recieved
+                "received doses" : vaxData.doses_recieved,
+                "last dose date" : vaxData.last_dose_recieved_date
             }
         })
 
