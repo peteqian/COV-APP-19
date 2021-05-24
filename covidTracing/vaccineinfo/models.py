@@ -6,6 +6,7 @@ class Vaccines(models.Model):
     name = models.CharField(max_length=100)
     doses_required = models.IntegerField(default=1)
     summary = models.CharField(max_length = 500)
+    active = models.BooleanField(default=True)
 
 
 class RecievedVaccineDose(models.Model):

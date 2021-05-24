@@ -37,3 +37,7 @@ class VaccinesSerializer(serializers.Serializer):
     name = serializers.CharField()
     summary = serializers.CharField()
     doses_required = serializers.IntegerField()
+    active = serializers.BooleanField()
+
+class deleteSerializer(serializers.Serializer):
+    id = serializers.IntegerField()

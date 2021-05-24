@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from .serializers import addVaccineSerializer, VaccinesSerializer, getVaccineInfoSerializer, emailSerializer, giveDoseSerializer
+from .serializers import addVaccineSerializer, VaccinesSerializer, deleteSerializer, getVaccineInfoSerializer, emailSerializer, giveDoseSerializer
 from accounts.serializers import UserSerializer
 from knox.auth import TokenAuthentication
 from accounts.models import Accounts
@@ -138,6 +138,14 @@ class editVaccine(APIView):
         vax.name = serializer.data['name']
         vax.summary = serializer.data['summary']
         vax.doses_required = serializer.data['doses_required']
+        vax.save()
+        return Response(True)
+
+    def delete(self, request, *args, **kwardgs):
+        serializer = deleteSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        vax = Vaccines.objects.get(id=serializer.data['id'])
+        vax.active = False
         vax.save()
         return Response(True)
 
