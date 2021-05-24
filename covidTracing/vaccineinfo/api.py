@@ -18,13 +18,17 @@ class getUserInfo(APIView):
         serializer.is_valid(raise_exception=True)
 
         user = Accounts.objects.get(email=serializer.data['email'])
-        vaxData = getVaccineInfoSerializer(user)
-        userData = UserSerializer(user)
-        # return Response(True)
+        vaxData = RecievedVaccineDose.objects.get(user=user)
 
         return Response({
-            'vaxdata' : vaxData.data,
-            'userdata': userData.data
+            "user": {
+                "firstname": user.first_name,
+                "last_name": user.last_name
+            },
+            "vaccinations" : {
+                "vaccine" : vaxData.vaccine.name,
+                "received doses" : vaxData.doses_recieved
+            }
         })
 
 
