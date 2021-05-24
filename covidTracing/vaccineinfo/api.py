@@ -125,5 +125,21 @@ class getAllVaccines(APIView):
             'data': serializer.data
         })
 
+class editVaccine(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    serializer_class = giveDoseSerializer
+
+    def put(self, request, *args, **kwardgs):
+        serializer = VaccinesSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        vax = Vaccines.objects.get(id=serializer.data['id'])
+
+        vax.name = serializer.data['name']
+        vax.summary = serializer.data['summary']
+        vax.doses_required = serializer.data['doses_required']
+        vax.save()
+        return Response(True)
+
     
 
