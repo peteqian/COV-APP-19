@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 class RolloutGroup(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     from_age = models.CharField(max_length=3)
     to_age = models.CharField(max_length=3)
     starting_date = models.CharField(max_length=50)
