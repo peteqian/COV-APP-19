@@ -34,6 +34,14 @@ class giveDose(APIView):
         serializer = giveDoseSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
+        user = Accounts.objects.get(id=self.request.user.id)
+        if(user.user_type == "HEALTH_USER"):
+            pass
+        else:
+            return Response({
+                'data':'Error user is not health staff'
+            })
+
         user = Accounts.objects.get(email=serializer.data['user_email'])
         vax = Vaccines.objects.get(id=serializer.data['vaccine_id'])
 
@@ -68,7 +76,6 @@ class addVaccine(APIView):
         serializer = addVaccineSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = Accounts.objects.get(id=self.request.user.id)
-
         if(user.user_type == "HEALTH_USER"):
             pass
         else:
@@ -89,6 +96,12 @@ class addVaccine(APIView):
             'id': v.id
         })
 
+class getAllVaccines(APIView):
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    serializer_class = giveDoseSerializer
+    
+    def get(self, request, format=None):
 
 
     
