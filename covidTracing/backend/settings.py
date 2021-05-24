@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'visitinfo',
     'vaccineinfo',
     'accounts',
+    'rollout',
     'rest_framework',
     'knox',
     'corsheaders',
