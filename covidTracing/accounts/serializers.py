@@ -21,7 +21,7 @@ class HealthSerializer(serializers.ModelSerializer):
 class BusinessSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ('email', 'user_type', 'first_name', 'last_name')
+        fields = ('email', 'user_type', 'first_name', 'last_name', 'phone_number')
 
 #serializer for Organisation user
 class OrganisationSerializer(serializers.ModelSerializer):
