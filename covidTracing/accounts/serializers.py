@@ -20,7 +20,7 @@ class HealthSerializer(serializers.ModelSerializer):
 class BusinessSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ('email', 'user_type')
+        fields = ('email', 'user_type', 'first_name', 'last_name')
 
 #serializer for Organisation user
 class OrganisationSerializer(serializers.ModelSerializer):
@@ -31,7 +31,7 @@ class OrganisationSerializer(serializers.ModelSerializer):
 class RegisterSerializer(serializers.ModelSerializer):
 
     password = serializers.CharField(write_only=True, required=True, validators=[validators.validate_password])
-    
+
     class Meta:
         model = get_user_model()
         fields = ('email', 'first_name', 'last_name', 'phone_number', 'password')
