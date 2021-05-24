@@ -1,6 +1,5 @@
 
 from rest_framework import serializers
-from accounts.serializers import UserSerializer
 from .models import Vaccines
 
 class emailSerializer(serializers.Serializer):
@@ -14,7 +13,6 @@ class userSerializer(serializers.Serializer):
 
 
 class getVaccineInfoSerializer(serializers.Serializer):
-    user = UserSerializer()
     vaccine = serializers.CharField()
     doses_recieved = serializers.CharField()
     last_dose_recieved_date = serializers.DateTimeField()
@@ -34,7 +32,7 @@ class addVaccineSerializer(serializers.Serializer):
     summary = serializers.CharField()
     doses_required = serializers.IntegerField()
 
-class allVaccinesSerializer(serializers.Serializer):
+class VaccinesSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField()
     summary = serializers.CharField()

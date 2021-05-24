@@ -1,7 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
-from .serializers import addVaccineSerializer, getVaccineInfoSerializer, emailSerializer, giveDoseSerializer
+from .serializers import addVaccineSerializer, VaccinesSerializer, getVaccineInfoSerializer, emailSerializer, giveDoseSerializer
+from accounts.serializers import UserSerializer
 from knox.auth import TokenAuthentication
 from accounts.models import Accounts
 from .models import Vaccines, RecievedVaccineDose
@@ -17,10 +18,13 @@ class getUserInfo(APIView):
         serializer.is_valid(raise_exception=True)
 
         user = Accounts.objects.get(email=serializer.data['email'])
-        send = getVaccineInfoSerializer(user)
+        vaxData = getVaccineInfoSerializer(user)
+        userData = UserSerializer(user)
+        # return Response(True)
 
-        return({
-            'data' : send.data
+        return Response({
+            'vaxdata' : vaxData.data,
+            'userdata': userData.data
         })
 
 
@@ -102,7 +106,11 @@ class getAllVaccines(APIView):
     serializer_class = giveDoseSerializer
     
     def get(self, request, format=None):
-
+        vaccines = Vaccines.objects.all()
+        serializer = VaccinesSerializer(vaccines,many=True)
+        return Response({
+            'data': serializer.data
+        })
 
     
 
