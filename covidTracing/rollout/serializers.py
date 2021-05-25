@@ -9,6 +9,7 @@ class RoulloutGroupSerializer(serializers.Serializer):
     vaccine_id_to_give = serializers.CharField()
 
 class groupsSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     name = serializers.CharField()
     from_age = serializers.CharField()
     to_age = serializers.CharField()
