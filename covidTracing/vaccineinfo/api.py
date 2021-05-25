@@ -159,4 +159,21 @@ class editVaccine(APIView):
         return Response(True)
 
     
+class GetVaccinePercentageAPI(APIView):
+    def get(self,request, *args, **kwargs):
+        count = Accounts.objects.filter(user_type='GENERAL_USER')
+        vaccinatedCount = 0
 
+        for vd in RecievedVaccineDose.objects.all():
+            if vd.doses_recieved >= vd.vaccine.doses_required:
+                vaccinatedCount += 1
+
+        percentage = round( ((vaccinatedCount/count.count())*100), 2) 
+        
+        return Response({
+            "data": {
+                "users" : count.count(),
+                "vaccinated": vaccinatedCount,
+                "percentage_vaccinated": percentage
+            }
+        })
