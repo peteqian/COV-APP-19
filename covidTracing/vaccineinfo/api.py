@@ -18,11 +18,9 @@ class getUserInfo(APIView):
         serializer.is_valid(raise_exception=True)
 
         user = Accounts.objects.get(id=self.request.user.id)
-        if(user.user_type == "HEALTH_USER"):
-            pass
-        else:
+        if(not(user.user_type == "HEALTH_USER" or user.user_type == "ORGANISATION_USER")):
             return Response({
-                'data':'Error user is not health staff'
+                'data': 'Error user is not health or organisation staff'
             })
 
         user = Accounts.objects.get(email=serializer.data['email'])
@@ -102,9 +100,9 @@ class addVaccine(APIView):
         serializer = addVaccineSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = Accounts.objects.get(id=self.request.user.id)
-        if(user.user_type != "HEALTH_USER" or user.user_type != "ORGANISATION_USER"):
+        if(not(user.user_type == "HEALTH_USER" or user.user_type == "ORGANISATION_USER")):
             return Response({
-                'data':'Error user is not health or organisation staff'
+                'data': 'Error user is not health or organisation staff'
             })
 
         try:
