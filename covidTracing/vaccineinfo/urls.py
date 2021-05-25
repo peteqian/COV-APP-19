@@ -1,7 +1,6 @@
 from django.urls import path, include
 from django.urls.resolvers import URLPattern
 from .api import addVaccine, editVaccine, getAllVaccines, getUserInfo, giveDose, GetVaccinePercentageAPI
-
 urlpatterns = [
     path('user',getUserInfo.as_view()),
     path('vaccine/dose',giveDose.as_view()),

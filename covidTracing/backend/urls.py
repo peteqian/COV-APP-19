@@ -16,11 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
+from visitinfo.api import hotspotlistAPI
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('location/', include('visitinfo.urls')),
     path('medical/', include('vaccineinfo.urls')),
-    path('rollout-groups/', include('rollout.urls'))
+    path('rollout-groups/', include('rollout.urls')),
+    path('cases/hot-spot/current', hotspotlistAPI.as_view()),
 ]

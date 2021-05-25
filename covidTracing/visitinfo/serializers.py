@@ -54,3 +54,6 @@ class VisitsSerializer(serializers.Serializer):
     time_of_visit = serializers.DateTimeField()
 
 
+class HotSpotSerializer(serializers.Serializer):
+    location = LocationSerializer(many=False)
+    amount_of_cases = serializers.IntegerField()

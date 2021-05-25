@@ -1,10 +1,11 @@
 
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.serializers import Serializer
 from rest_framework.views import APIView
-from .serializers import CheckInSerializer, VisitsSerializer
+from .serializers import CheckInSerializer, HotSpotSerializer, VisitsSerializer
 from knox.auth import TokenAuthentication
-from visitinfo.models import Visits, Locations, Dependents
+from visitinfo.models import Visits, Locations, Dependents, Hotspot
 from accounts.models import Accounts
 
 # Create your views here.
@@ -50,6 +51,24 @@ class checkInAPI(APIView):
 
     #     return Response(content)
 
+class hotspotlistAPI(APIView):
+    def post(self, request, format=None):
+        for hs in Hotspot.objects.all():
+            count = 0
+            checkins = Visits.objects.filter(location=hs.location)
+            for ci in checkins:
+                if ci.user.cov_status == "POSITIVE":
+                    count += 1
+            
+            if count != hs.amount_of_cases:
+                hs.amount_of_cases = count
+                hs.save()
+        return Response(True)
+    
+    def get(self, request, format=None):
+        hotspots = Hotspot.objects.all()
+        serializer = HotSpotSerializer(hotspots, many=True)
 
-
-
+        return Response({
+            'data': serializer.data
+        })
