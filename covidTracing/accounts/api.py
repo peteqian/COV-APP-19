@@ -30,10 +30,28 @@ class RegisterBusinessAPI(generics.GenericAPIView):
         user.user_type = 'BUSINESS_USER'
         user.save()
         pc = None
+        street = None
+        address = None
 
-        pc = PostCode.objects.create(postcode=request.data["postcode"], state=request.data["state"])
-        street = Street.objects.create(name=request.data["street"], postcode=pc)
-        address = Address.objects.create(house_number=request.data["house_number"], street=street)
+        # fetch postcode in database or make new one 
+        try:
+            pc = PostCode.objects.get(postcode=request.data["postcode"])
+        except:
+            pc = PostCode.objects.create(postcode=request.data["postcode"], state=request.data["state"])
+            pass
+        
+        # fetch street in database or make new one 
+        try:
+            street = Street.objects.get(name=request.data["street"])
+        except:
+            street = Street.objects.create(name=request.data["street"], postcode=pc)
+        
+        # fetch address in database or make new one 
+        try:
+            address = Address.objects.get(house_number=request.data["house_number"], street=street)  
+        except:  
+            address = Address.objects.create(house_number=request.data["house_number"], street=street)
+        
         location = Locations.objects.create(location_name=request.data["loc_name"], address=address, user=user)
         Hotspot.objects.create(location=location, amount_of_cases=0)
 
