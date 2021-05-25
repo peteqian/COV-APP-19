@@ -17,7 +17,7 @@ class RolloutGroupAPI(APIView):
         serializer.is_valid(raise_exception=True)
         if(self.request.user.user_type != 'ORGANISATION_USER'):
             return Response({
-                "data":"User is not and organisation user"
+                "data":"User is not an organisation user"
             })
         v = Vaccines.objects.get(id=serializer.data["vaccine_id_to_give"])
         RolloutGroup.objects.create(name=serializer.data["name"], 
