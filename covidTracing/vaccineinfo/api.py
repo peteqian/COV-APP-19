@@ -102,11 +102,11 @@ class addVaccine(APIView):
         serializer = addVaccineSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = Accounts.objects.get(id=self.request.user.id)
-        if(user.user_type == "HEALTH_USER"):
+        if(user.user_type == "HEALTH_USER" or user.user_type == "ORGANISATION_USER"):
             pass
         else:
             return Response({
-                'data':'Error user is not health staff'
+                'data':'Error user is not health or organisation staff'
             })
 
         try:
