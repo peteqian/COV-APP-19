@@ -20,12 +20,14 @@ class RolloutGroupAPI(APIView):
                 "data":"User is not an organisation user"
             })
         v = Vaccines.objects.get(id=serializer.data["vaccine_id_to_give"])
-        RolloutGroup.objects.create(name=serializer.data["name"], 
+        newGroup = RolloutGroup.objects.create(name=serializer.data["name"], 
                                     from_age=serializer.data["from_age"], 
                                     to_age=serializer.data["to_age"],
                                     starting_date=serializer.data["starting_date"],
                                     vaccine_to_give=v)
-        return Response(True)
+        return Response({
+            "id":newGroup.id
+        })
 
 
     def put(self, request, *args, **kwargs):
