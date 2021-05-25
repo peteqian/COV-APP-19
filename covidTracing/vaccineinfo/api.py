@@ -14,7 +14,7 @@ class getUserInfo(APIView):
     serializer_class = emailSerializer
 
     def get(self,request, *args, **kwargs):
-        serializer = emailSerializer(data = request.data)
+        serializer = emailSerializer(data = request.query_params)
         serializer.is_valid(raise_exception=True)
 
         user = Accounts.objects.get(id=self.request.user.id)
