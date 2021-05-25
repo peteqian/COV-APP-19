@@ -26,7 +26,16 @@ class getUserInfo(APIView):
             })
 
         user = Accounts.objects.get(email=serializer.data['email'])
-        vaxData = RecievedVaccineDose.objects.get(user=user)
+        try:
+            vaxData = RecievedVaccineDose.objects.get(user=user)
+        except:
+            return Response({
+            "user": {
+                "firstname": user.first_name,
+                "last_name": user.last_name
+            },
+            "vaccinations" : "None"
+        })
 
         return Response({
             "user": {
