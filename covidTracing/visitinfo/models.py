@@ -40,3 +40,6 @@ class Dependents(models.Model):
     last_name = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=13, blank=True, default='')
 
+class Hotspot(models.Model):
+    location = models.ForeignKey(Locations, on_delete=models.PROTECT)
+    amount_of_cases = models.IntegerField()
