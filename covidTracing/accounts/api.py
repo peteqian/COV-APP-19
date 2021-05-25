@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from knox.auth import TokenAuthentication
 from knox.models import AuthToken
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer, HealthSerializer, OrganisationSerializer, BusinessSerializer
-from visitinfo.models import PostCode, Street, Address, Locations
+from visitinfo.models import PostCode, Street, Address, Locations, Hotspot
 from accounts.models import Accounts
 
 
@@ -34,6 +34,7 @@ class RegisterBusinessAPI(generics.GenericAPIView):
         street = Street.objects.create(name=request.data["street"], postcode=pc)
         address = Address.objects.create(house_number=request.data["house_number"], street=street)
         location = Locations.objects.create(location_name=request.data["loc_name"], address=address, user=user)
+        Hotspot.objects.create(location=location, amount_of_cases=0)
 
         return Response(True)
 
