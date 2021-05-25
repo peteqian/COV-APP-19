@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from knox.auth import TokenAuthentication
 from knox.models import AuthToken
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer, HealthSerializer, OrganisationSerializer, BusinessSerializer
-from visitinfo.models import PostCode, Street, Address, Locations, Hotspot
+from visitinfo.models import PostCode, Street, Address, Locations, Hotspot, Visits
 from accounts.models import Accounts
 
 
@@ -29,7 +29,8 @@ class RegisterBusinessAPI(generics.GenericAPIView):
         user = serializer.save()
         user.user_type = 'BUSINESS_USER'
         user.save()
-        
+        pc = None
+
         pc = PostCode.objects.create(postcode=request.data["postcode"], state=request.data["state"])
         street = Street.objects.create(name=request.data["street"], postcode=pc)
         address = Address.objects.create(house_number=request.data["house_number"], street=street)
@@ -64,8 +65,25 @@ class UpdateTestAPI(generics.GenericAPIView):
             })
 
         userToChange = Accounts.objects.get(email=request.data["email"])
+       
+        if request.data["newStatus"] == 'NEGATIVE' and userToChange.cov_status == 'POSITIVE':
+            checkins = Visits.objects.filter(user=userToChange)
+            for ci in checkins:
+                hs = Hotspot.objects.get(location=ci.location)
+                hs.amount_of_cases-=1
+                hs.save()
+
+        if request.data["newStatus"] == 'POSITIVE':
+            checkins = Visits.objects.filter(user=userToChange)
+            for ci in checkins:
+                hs = Hotspot.objects.get(location=ci.location)
+                hs.amount_of_cases+=1
+                hs.save()
+        
         userToChange.cov_status = request.data["newStatus"]
         userToChange.save()
+
+
         return Response(True)
         
 
