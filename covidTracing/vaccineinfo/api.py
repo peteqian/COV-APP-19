@@ -42,8 +42,8 @@ class getUserInfo(APIView):
             },
             "vaccinations" : {
                 "vaccine" : vaxData.vaccine.name,
-                "received doses" : vaxData.doses_recieved,
-                "last dose date" : vaxData.last_dose_recieved_date
+                "received_doses" : vaxData.doses_recieved,
+                "last_dose_date" : vaxData.last_dose_recieved_date
             }
         })
 
