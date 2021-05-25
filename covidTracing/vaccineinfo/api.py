@@ -148,13 +148,13 @@ class editVaccine(APIView):
         vax.save()
         return Response(True)
 
-    def delete(self, request, *args, **kwardgs):
-        serializer = deleteSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        vax = Vaccines.objects.get(id=serializer.data['id'])
-        vax.active = False
-        vax.save()
-        return Response(True)
+    # def delete(self, request, *args, **kwardgs):
+    #     serializer = deleteSerializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     vax = Vaccines.objects.get(id=serializer.data['id'])
+    #     vax.active = False
+    #     vax.save()
+    #     return Response(True)
 
     
 class GetVaccinePercentageAPI(APIView):
