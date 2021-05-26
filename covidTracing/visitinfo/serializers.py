@@ -46,7 +46,7 @@ class CheckInSerializer(serializers.Serializer):
 
 
 class LocationSerializer(serializers.Serializer):
-    location_name = serializers.CharField()
+    city = serializers.CharField()
 
 class VisitsSerializer(serializers.Serializer):
     dependents = dependentSerializer(many=True)
