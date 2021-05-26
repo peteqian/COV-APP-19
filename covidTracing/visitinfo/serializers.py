@@ -21,6 +21,11 @@ class CheckInSerializer(serializers.Serializer):
     location_id = serializers.CharField()
     dependents = dependentSerializer(many=True, required=False)
 
+class loadCheckInSerializer(serializers.Serializer):
+    email= serializers.CharField()
+    location_id = serializers.CharField()
+    dependents = dependentSerializer(many=True, required=False)
+
 
 #need to reimplement, ensure all data sent is valid
 #not used to validate user
