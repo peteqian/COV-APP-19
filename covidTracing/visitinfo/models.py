@@ -20,11 +20,13 @@ class Street(models.Model):
 class Address(models.Model):
     street = models.ForeignKey(Street, on_delete=models.PROTECT)
     house_number = models.IntegerField()
+ 
 
 class Locations(models.Model):
     address = models.ForeignKey(Address, on_delete=models.PROTECT)
     location_name = models.CharField(max_length=255)
     user = models.ForeignKey('accounts.Accounts', on_delete=models.PROTECT)
+    city = models.CharField(max_length=50)
 
 
 class Visits(models.Model):

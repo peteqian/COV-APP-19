@@ -66,7 +66,7 @@ class hotspotlistAPI(APIView):
         return Response(True)
     
     def get(self, request, format=None):
-        hotspots = Hotspot.objects.all().order_by('-amount_of_cases', 'location__location_name')
+        hotspots = Hotspot.objects.all().order_by('-amount_of_cases', 'location__city')
         serializer = HotSpotSerializer(hotspots, many=True)
 
         return Response({
