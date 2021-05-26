@@ -57,7 +57,11 @@ class RegisterBusinessAPI(generics.GenericAPIView):
             address = Address.objects.create(house_number=request.data["house_number"], street=street)
         
         location = Locations.objects.create(location_name=request.data["loc_name"], address=address, user=user, city=request.data["city_name"])
-        Hotspot.objects.create(location=location, amount_of_cases=0)
+
+        try:
+            Hotspot.objects.get(location__city=request.data["city_name"])
+        except:
+            Hotspot.objects.create(location=location, amount_of_cases=0)
 
         return Response(True)
 
