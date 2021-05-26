@@ -5,7 +5,7 @@ from knox.models import AuthToken
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer, HealthSerializer, OrganisationSerializer, BusinessSerializer
 from visitinfo.models import PostCode, Street, Address, Locations, Hotspot, Visits
 from accounts.models import Accounts
-
+from vaccineinfo.models import RecievedVaccineDose
 
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -124,9 +124,18 @@ class LoginAPI(generics.GenericAPIView):
         user = serializer.validated_data
         #check for user type here and return specified data
         if user.user_type == "GENERAL_USER":
+            vaccinated = False
+            try:
+                vd = RecievedVaccineDose.objects.get(user=user)
+                if vd.doses_recieved >= vd.vaccine.doses_required:
+                    vaccinated = True
+            except:
+                pass
+            
             return Response({
-                "user": UserSerializer(user, context=self.get_serializer_context()).data, 
-                "token": AuthToken.objects.create(user)[1]
+                "user": UserSerializer(user, context=self.get_serializer_context()).data,
+                "vaccinated":vaccinated, 
+                "token": AuthToken.objects.create(user)[1],
             })
         elif user.user_type == "HEALTH_USER":
             return Response({
