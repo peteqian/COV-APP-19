@@ -31,6 +31,7 @@ class RegisterBusinessAPI(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         user.user_type = 'BUSINESS_USER'
+        user.set_password(request.data["password"])
         user.save()
         pc = None
         street = None
