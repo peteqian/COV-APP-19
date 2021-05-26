@@ -95,16 +95,16 @@ class UpdateTestAPI(generics.GenericAPIView):
         if request.data["newStatus"] == 'NEGATIVE' and userToChange.cov_status == 'POSITIVE':
             checkins = Visits.objects.filter(user=userToChange)
             for ci in checkins:
-                hs = Hotspot.objects.get(location=ci.location)
+                hs = Hotspot.objects.get(location__city=ci.location.city)
                 hs.amount_of_cases-=1
                 hs.save()
 
-        if request.data["newStatus"] == 'POSITIVE':
+        if request.data["newStatus"] == 'POSITIVE' and userToChange.cov_status != 'POSITIVE':
             checkins = Visits.objects.filter(user=userToChange)
             for ci in checkins:
-                hs = Hotspot.objects.get(location=ci.location)
-                hs.amount_of_cases+=1
-                hs.save()
+                    hs = Hotspot.objects.get(location__city=ci.location.city)
+                    hs.amount_of_cases+=1
+                    hs.save()
         
         userToChange.cov_status = request.data["newStatus"]
         userToChange.save()
