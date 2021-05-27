@@ -19,12 +19,12 @@ class RolloutGroupAPI(APIView):
             return Response({
                 "data":"User is not an organisation user"
             })
-        v = Vaccines.objects.get(id=serializer.data["vaccine_id_to_give"])
+        vax_instance = Vaccines.objects.get(id=serializer.data["vaccine_id_to_give"])
         newGroup = RolloutGroup.objects.create(name=serializer.data["name"], 
                                     from_age=serializer.data["from_age"], 
                                     to_age=serializer.data["to_age"],
                                     starting_date=serializer.data["starting_date"],
-                                    vaccine_to_give=v)
+                                    vaccine_to_give=vax_instance)
         return Response({
             "id":newGroup.id
         })
@@ -40,8 +40,8 @@ class RolloutGroupAPI(APIView):
         ROGroup.to_age = serializer.data["to_age"]
         ROGroup.starting_date = serializer.data["starting_date"]
 
-        v = Vaccines.objects.get(id=serializer.data["vaccine_id_to_give"])      
-        ROGroup.vaccine_to_give = v
+        vax_instance = Vaccines.objects.get(id=serializer.data["vaccine_id_to_give"])      
+        ROGroup.vaccine_to_give = vax_instance
         ROGroup.save()
 
         return Response(True)
