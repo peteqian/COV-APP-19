@@ -70,20 +70,16 @@ class giveDose(APIView):
         vax = Vaccines.objects.get(id=serializer.data['vaccine_id'])
 
         try:
-            v = RecievedVaccineDose.objects.get(user_id=user)
-            #vid = getattr(v,'vaccine_id')
-            #if user already has that type of vaccine increment doses
+            vaccine = RecievedVaccineDose.objects.get(user_id=user)
             
-            if v.vaccine_id == serializer.data['vaccine_id']:
-                x = v.doses_recieved
-                x = x + 1
-                v.doses_recieved = x
-                v.save()
+            if vaccine.vaccine_id == serializer.data['vaccine_id']:
+                vaccine.doses_recieved +=1
+                vaccine.save()
                 return Response(True)
             else:
                 return Response({
                     'data': 'user is engaged with another vaccine',
-                    'vid' : v.vaccine_id,
+                    'vid' : vaccine.vaccine_id,
                     'attempted' : serializer.data['vaccine_id']
                 })
             
