@@ -19,9 +19,6 @@ class checkInAPI(APIView):
     serializer_class = CheckInSerializer
 
     def post(self, request, *args, **kwargs):
-        # return Response({
-        #     "message" : "help"
-        # })
         serializer = CheckInSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         
@@ -29,27 +26,24 @@ class checkInAPI(APIView):
         uid = Accounts.objects.get(id=self.request.user.id) 
         lid = Locations.objects.get(id=serializer.data["location_id"])
 
-        v = Visits.objects.create(user=uid, location=lid)
+        visit_instance = Visits.objects.create(user=uid, location=lid)
 
         dlist=serializer.data["dependents"]
 
         for d in dlist:
-            Dependents.objects.create(visit=v, carer=uid, first_name=d["first_name"],last_name=d["last_name"],phone_number=d["phone_number"])
+            Dependents.objects.create(visit=visit_instance, carer=uid, first_name=d["first_name"],last_name=d["last_name"],phone_number=d["phone_number"])
         
         return Response(True)
     
     def get(self, request, format=None):
         uid = Accounts.objects.get(id=self.request.user.id) 
         visit = Visits.objects.filter(user_id=uid)
-        # print(visit)
         serializer = VisitsSerializer(visit,many=True)
 
         return Response({
             "data" : serializer.data
         })
 
-
-    #     return Response(content)
 
 class hotspotlistAPI(APIView):
     def post(self, request, format=None):
